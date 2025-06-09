@@ -8,6 +8,7 @@ type Props = {
   placeholder?: string
   type?: string
   className?: string
+  autoComplete?: string
 }
 
 export default function FieldPasswordInput({
@@ -16,6 +17,7 @@ export default function FieldPasswordInput({
   placeholder,
   type = 'text',
   className,
+  autoComplete,
 }: Props) {
   const {
     register,
@@ -32,6 +34,7 @@ export default function FieldPasswordInput({
         placeholder={placeholder}
         type={type}
         className={className}
+        autoComplete={autoComplete}
       />
     </Field>
   )

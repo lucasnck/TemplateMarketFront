@@ -9,6 +9,7 @@ type Props = {
   type?: string
   className?: string
   showSuggestions?: boolean
+  autoComplete?: string
 }
 
 export default function FieldEmailInput({
@@ -18,6 +19,7 @@ export default function FieldEmailInput({
   type = 'text',
   className,
   showSuggestions,
+  autoComplete,
 }: Props) {
   const {
     register,
@@ -35,6 +37,7 @@ export default function FieldEmailInput({
         type={type}
         className={className}
         showSuggestions={showSuggestions}
+        autoComplete={autoComplete}
       />
     </Field>
   )

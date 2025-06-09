@@ -1,31 +1,45 @@
-// src/components/form/MaskedInput.tsx
-import { useInputMask } from 'use-mask-input'
-import { forwardRef, useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import IMask from 'imask'
+import { useFormContext } from 'react-hook-form'
 
-type Props = {
-  name: string
-  mask: string
-  placeholder?: string
-} & React.InputHTMLAttributes<HTMLInputElement>
+export default function MaskedInput() {
+  const inputRef = useRef<HTMLInputElement | null>(null)
+  const [maskedValue, setMaskedValue] = useState('')
+  const [unmaskedValue, setUnmaskedValue] = useState('')
+  const { setValue, register } = useFormContext()
 
-const MaskedInput = forwardRef<HTMLInputElement, Props>(({ mask, ...props }, ref) => {
-  const innerRef = useInputMask({ mask }) // correto: retorna um RefObject
+  const maskConfig = '+{55} (00) 00000-0000'
 
-  // conecta o ref externo (forwardRef)
   useEffect(() => {
-    if (!ref) return
-    if (typeof ref === 'function') ref(innerRef.current)
-    else (ref as React.MutableRefObject<HTMLInputElement | null>).current = innerRef.current
-  }, [ref])
+    if (!inputRef.current) return
+
+    const mask = IMask(inputRef.current, {
+      mask: maskConfig,
+    })
+
+    mask.on('accept', () => {
+      setMaskedValue(mask.value)
+      setUnmaskedValue(mask.unmaskedValue)
+      setValue('phone1', mask.unmaskedValue, { shouldValidate: true })
+    })
+
+    return () => {
+      mask.destroy()
+    }
+  }, [setValue])
 
   return (
-    <input
-      {...props}
-      ref={innerRef}
-      className={`w-full border p-2 rounded ${props.className ?? ''}`}
-    />
-  )
-})
+    <div style={{ padding: 16 }}>
+      <input type="hidden" {...register('phone1')} />
 
-MaskedInput.displayName = 'MaskedInput'
-export default MaskedInput
+      <input ref={inputRef} placeholder="Telefone" />
+
+      <p>
+        📞 <strong>Com máscara:</strong> {maskedValue}
+      </p>
+      <p>
+        🔢 <strong>Sem máscara:</strong> {unmaskedValue}
+      </p>
+    </div>
+  )
+}

@@ -46,8 +46,10 @@ const EmailInput = forwardRef<HTMLInputElement, EmailInputProps>((props, ref) =>
         value={value}
         onChange={handleChange}
         ref={ref}
-        placeholder="Email"
+        type="email"
+        placeholder={props.placeholder}
         className={props.className}
+        autoComplete={props.autoComplete}
       />
 
       {showSuggestions && (

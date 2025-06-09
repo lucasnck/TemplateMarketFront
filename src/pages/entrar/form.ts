@@ -7,6 +7,7 @@ export const formConfig = {
     placeholder: 'Digite seu email',
     value: '',
     validator: z.string().email({ message: 'Email inválido' }),
+    autoComplete: 'username',
   },
   password: {
     name: 'password',
@@ -14,6 +15,7 @@ export const formConfig = {
     placeholder: 'Digite sua senha',
     value: '',
     validator: z.string().min(1, 'Senha obrigatória'),
+    autoComplete: 'current-password',
   },
 }
 
