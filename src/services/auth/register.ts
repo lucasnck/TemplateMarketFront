@@ -4,5 +4,5 @@ import { RegisterPayload, RegisterResponse } from './types/register'
 import { ApiResponse } from '../types/api'
 
 export const register = (data: RegisterPayload) => {
-  return api.post<ApiResponse<RegisterResponse>>('/Auth/register', data)
+  return api.post<ApiResponse<RegisterResponse>>('/api/Auth/register', data)
 }
